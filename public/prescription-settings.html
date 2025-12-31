@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prescription Settings - MedFlow Pro</title>
+    <link rel="stylesheet" href="/css/prescription-settings.css">
+</head>
+
+<body>
+    <!-- Header -->
+    <header class="site-header">
+        <div class="container-wide"
+            style="max-width: 1400px; margin: 0 auto; padding: 0 40px; display: flex; justify-content: space-between; align-items: center;">
+            <div class="brand">
+                <span>MedFlow</span> Pro
+            </div>
+            <nav class="main-nav">
+                <a href="index.html" data-i18n="nav.home">Home</a>
+                <a href="reception.html" data-i18n="nav.reception">Reception</a>
+                <a href="doctor.html" data-i18n="nav.doctor">Doctor</a>
+                <a href="pharmacy.html" data-i18n="nav.pharmacy">Pharmacy</a>
+                <a href="lab.html" data-i18n="nav.lab">Lab</a>
+            </nav>
+            <div style="display: flex; align-items: center; gap: 15px;">
+                <select id="languageSelect" class="language-selector"
+                    style="padding: 8px 12px; border-radius: 8px; border: 1px solid #E2E8F0; background: white;">
+                    <option value="en">English</option>
+                    <option value="hi">हिंदी</option>
+                    <option value="mr">मराठी</option>
+                </select>
+                <div
+                    style="font-weight: 600; color: var(--text-secondary); background: #F1F5F9; padding: 8px 16px; border-radius: 8px; font-size: 0.9rem;">
+                    ⚙️ Settings
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="settings-page-wrapper">
+        <!-- Left Side: Form -->
+        <div class="settings-content">
+            <div class="page-header">
+                <h1 data-i18n="settings.title">Prescription Template</h1>
+                <p data-i18n="settings.subtitle">Customize how your prescriptions look when printed or downloaded.</p>
+            </div>
+
+            <form id="templateForm">
+                <div class="settings-panel">
+                    <!-- Section 1: Hospital Info -->
+                    <div class="panel-section">
+                        <h3>🏥 <span data-i18n="settings.hospitalInfo">Hospital Information</span></h3>
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label data-i18n="label.hospitalName">Hospital Name</label>
+                                <input type="text" id="hospitalName" placeholder="e.g. MedFlow Clinic">
+                            </div>
+                            <div class="form-group">
+                                <label data-i18n="label.phone">Phone Number</label>
+                                <input type="text" id="hospitalPhone" placeholder="+91 XXXXXXXXXX">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label data-i18n="label.address">Full Address</label>
+                            <textarea id="hospitalAddress" rows="2" placeholder="Street, City, State, PIN"></textarea>
+                        </div>
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label data-i18n="label.email">Email Address</label>
+                                <input type="email" id="hospitalEmail" placeholder="contact@hospital.com">
+                            </div>
+                            <div class="form-group">
+                                <label data-i18n="label.logo">Hospital Logo</label>
+                                <div class="file-upload-zone" id="logoUploadZone">
+                                    <span class="icon">🖼️</span>
+                                    <span data-i18n="btn.uploadLogo" id="logoText">Click to upload logo</span>
+                                    <input type="file" id="hospitalLogo" accept="image/*">
+                                    <input type="hidden" id="hospitalLogoBase64">
+                                </div>
+                                <div id="logoPreview"
+                                    style="margin-top: 10px; display: none; align-items: center; gap: 10px;">
+                                    <img src="" style="height: 40px; border-radius: 4px;">
+                                    <button type="button" onclick="clearLogo()"
+                                        style="background: #FEE2E2; color: #EF4444; border: none; padding: 4px 8px; border-radius: 4px; font-size: 0.75rem; cursor: pointer;">Remove</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Section 2: Template Configuration -->
+                    <div class="panel-section">
+                        <h3>📄 <span data-i18n="settings.templateConfig">Template Configuration</span></h3>
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label data-i18n="label.templateName">Template Name</label>
+                                <input type="text" id="templateName" value="Default Professional">
+                            </div>
+                            <div class="form-group">
+                                <label data-i18n="label.layoutStyle">Layout Style</label>
+                                <select id="layoutStyle">
+                                    <option value="classic">Classic Professional</option>
+                                    <option value="modern">Modern Minimal</option>
+                                    <option value="minimal">Compact</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label data-i18n="label.paperSize">Paper Size</label>
+                                <select id="paperSize">
+                                    <option value="A4">A4 (Standard)</option>
+                                    <option value="A5">A5 (Half-A4)</option>
+                                    <option value="Letter">Letter</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label data-i18n="label.fontSize">General Font Size (px)</label>
+                                <input type="number" id="fontSize" value="12" min="8" max="18">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Section 3: Colors & Branding -->
+                    <div class="panel-section">
+                        <h3>🎨 <span data-i18n="settings.branding">Branding & Colors</span></h3>
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label data-i18n="label.primaryColor">Primary Theme Color</label>
+                                <div class="color-input-container">
+                                    <input type="color" id="primaryColor" value="#0EA5E9">
+                                    <input type="text" id="primaryColorText" value="#0EA5E9" style="width: 100px;">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label data-i18n="label.secondaryColor">Accent Color</label>
+                                <div class="color-input-container">
+                                    <input type="color" id="secondaryColor" value="#64748B">
+                                    <input type="text" id="secondaryColorText" value="#64748B" style="width: 100px;">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Section 4: Visibility Options -->
+                    <div class="panel-section">
+                        <h3>👁️ <span data-i18n="settings.visibility">Display Visibility</span></h3>
+                        <div class="form-grid">
+                            <label class="checkbox-card">
+                                <input type="checkbox" id="showLetterhead" checked>
+                                <span data-i18n="label.showLetterhead">Show Letterhead</span>
+                            </label>
+                            <label class="checkbox-card">
+                                <input type="checkbox" id="showVitals" checked>
+                                <span data-i18n="label.showVitals">Show Vitals</span>
+                            </label>
+                            <label class="checkbox-card">
+                                <input type="checkbox" id="showDiagnosis" checked>
+                                <span data-i18n="label.showDiagnosis">Show Diagnosis</span>
+                            </label>
+                            <label class="checkbox-card">
+                                <input type="checkbox" id="showHistory" checked>
+                                <span data-i18n="label.showHistory">Show History</span>
+                            </label>
+                            <label class="checkbox-card">
+                                <input type="checkbox" id="showWatermark">
+                                <span data-i18n="label.showWatermark">Show Watermark</span>
+                            </label>
+                        </div>
+                        <div class="form-group" id="watermarkTextGroup" style="margin-top: 15px; display: none;">
+                            <label data-i18n="label.watermarkText">Watermark Text</label>
+                            <input type="text" id="watermarkText" placeholder="e.g. DUPLICATE">
+                        </div>
+                    </div>
+
+                    <!-- Section 5: Header & Footer -->
+                    <div class="panel-section">
+                        <h3>📝 <span data-i18n="settings.headerFooter">Header & Footer</span></h3>
+                        <div class="form-group">
+                            <label data-i18n="label.headerText">Additional Header Info</label>
+                            <textarea id="headerText" placeholder="Timings, registration info, etc."></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label data-i18n="label.footerText">Footer Note / Disclaimer</label>
+                            <textarea id="footerText" placeholder="Visit again for follow-up..."></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label data-i18n="label.signature">Doctor's Digital Signature</label>
+                            <div class="file-upload-zone">
+                                <span class="icon">✍️</span>
+                                <span data-i18n="btn.uploadSignature">Upload Signature Image</span>
+                                <input type="file" id="doctorSignature" accept="image/*">
+                                <input type="hidden" id="doctorSignatureBase64">
+                            </div>
+                            <div id="signaturePreview"
+                                style="margin-top: 10px; display: none; align-items: center; gap: 10px;">
+                                <img src="" style="height: 40px; border: 1px solid #EEE;">
+                                <button type="button" onclick="clearSignature()"
+                                    style="background: #FEE2E2; color: #EF4444; border: none; padding: 4px 8px; border-radius: 4px; font-size: 0.75rem; cursor: pointer;">Remove</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Section 6: Margins -->
+                    <div class="panel-section">
+                        <h3>📏 <span data-i18n="settings.margins">Page Margins (px)</span></h3>
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label data-i18n="label.marginTop">Top</label>
+                                <input type="number" id="marginTop" value="50">
+                            </div>
+                            <div class="form-group">
+                                <label data-i18n="label.marginBottom">Bottom</label>
+                                <input type="number" id="marginBottom" value="50">
+                            </div>
+                            <div class="form-group">
+                                <label data-i18n="label.marginLeft">Left</label>
+                                <input type="number" id="marginLeft" value="50">
+                            </div>
+                            <div class="form-group">
+                                <label data-i18n="label.marginRight">Right</label>
+                                <input type="number" id="marginRight" value="50">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <!-- Right Side: Live Preview -->
+        <div class="preview-sticky">
+            <div class="preview-container">
+                <h3><span data-i18n="settings.livePreview">Live Print Preview</span> <span
+                        style="font-size: 0.7rem; background: #FFF; padding: 4px 8px; border-radius: 4px; color: var(--text-muted);">Real-time</span>
+                </h3>
+                <div class="preview-document" id="previewDoc">
+                    <div class="preview-header" id="previewHeader">
+                        <div class="preview-title" id="previewHospitalName">MedFlow Clinic</div>
+                        <div class="preview-subtitle" id="previewAddress">123 Health Street, Wellness City</div>
+                        <div class="preview-subtitle" id="previewContact">+91 9876543210 | care@medflow.com</div>
+                    </div>
+
+                    <div class="preview-content" style="color: #334155;">
+                        <div
+                            style="display: flex; justify-content: space-between; margin-bottom: 20px; font-size: 0.9em;">
+                            <div><strong>Doctor:</strong> Dr. Sameer Patil</div>
+                            <div><strong>Date:</strong> 18 Dec 2025</div>
+                        </div>
+
+                        <div class="preview-section">
+                            <div class="preview-section-title">Patient Details</div>
+                            <div style="font-size: 0.95em; line-height: 1.6;">
+                                <strong>Name:</strong> Rajesh Kumar <br>
+                                <strong>Age/Gender:</strong> 34 Y / Male <br>
+                                <strong>Token:</strong> #145
+                            </div>
+                        </div>
+
+                        <div class="preview-section">
+                            <div class="preview-section-title">℞ Prescription</div>
+                            <div style="font-size: 0.95em; line-height: 1.8;">
+                                • Tab. Pan 40 (1-0-1) - 5 Days <br>
+                                • Cap. Amoxycillin 500 (1-1-1) - 3 Days <br>
+                                • Syrup Benadryl 10ml - TDS - 3 Days
+                            </div>
+                        </div>
+
+                        <div style="margin-top: 40px; text-align: right;">
+                            <div style="font-size: 0.8em; margin-bottom: 5px;">Dr. Sameer Patil</div>
+                            <div style="height: 1px; background: #E2E8F0; width: 140px; margin-left: auto;"></div>
+                            <div style="font-size: 0.7em; color: var(--text-muted); margin-top: 5px;">Signed Digitally
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="previewFooterText"
+                        style="position: absolute; bottom: 20px; left: 0; right: 0; text-align: center; font-size: 0.7em; color: var(--text-muted); padding: 0 40px;">
+                        This is a computer generated prescription.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Floating Action Bar -->
+    <div class="footer-actions">
+        <span data-i18n="settings.unsavedChanges">You have unsaved changes in your template.</span>
+        <button type="button" class="btn-premium" onclick="window.saveTemplate()" data-i18n="btn.saveSettings">
+            Save Template 💾
+        </button>
+    </div>
+
+    <!-- Success Toast -->
+    <div id="successMessage" class="success-toast">
+        <span class="icon">✅</span>
+        <span data-i18n="settings.saveSuccess">Settings saved successfully!</span>
+    </div>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="/js/translations.js"></script>
+    <script src="/js/i18n.js"></script>
+    <script src="/js/prescription-settings.js"></script>
+    <script src="/js/chat-widget.js"></script>
+</body>
+
+</html>

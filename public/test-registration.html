@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Test Registration</title>
+
+</head>
+
+<body>
+    <h1>Registration Test</h1>
+    <button onclick="testRegistration()">Test Register Patient</button>
+    <div id="status"></div>
+    <div id="log"></div>
+
+    <script src="https://cdn.socket.io/4.5.4/socket.io.min.js"></script>
+    <script>
+        const API_BASE = window.location.hostname === 'localhost' ? 'http://localhost:3000' : '';
+        const socket = io(API_BASE);
+        const statusDiv = document.getElementById('status');
+        const logDiv = document.getElementById('log');
+
+        function log(msg) {
+            const p = document.createElement('p');
+            p.textContent = new Date().toLocaleTimeString() + ': ' + msg;
+            logDiv.prepend(p);
+        }
+
+        socket.on('connect', () => {
+            log('✓ Connected to server');
+            socket.emit('join', 'reception');
+        });
+
+        socket.on('patient-registered', (p) => {
+            log(`✓ Patient registered: ${p.name} (ID: ${p.id}, Token: ${p.token})`);
+            statusDiv.className = 'status success';
+            statusDiv.textContent = `SUCCESS! Patient "${p.name}" registered with Token ${p.token}`;
+        });
+
+        socket.on('disconnect', () => {
+            log('✗ Disconnected from server');
+        });
+
+        function testRegistration() {
+            const testData = {
+                name: 'Test Patient ' + Math.floor(Math.random() * 1000),
+                age: 30,
+                gender: 'Male',
+                phone: '9876543210',
+                address: 'Test Address',
+                patientType: 'New',
+                opdIpd: 'OPD',
+                department: 'General',
+                doctorId: null,
+                reason: 'Test Visit',
+                prescription: 'Test Notes',
+                cost: 500
+            };
+
+            log('Sending registration: ' + testData.name);
+            socket.emit('register-patient', testData);
+            statusDiv.className = 'status';
+            statusDiv.textContent = 'Registering...';
+        }
+    </script>
+</body>
+
+</html>

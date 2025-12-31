@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MedFlow Pro - Modern Healthcare Management</title>
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="css/mobile.css">
+
+</head>
+
+<body>
+
+  <!-- Header -->
+  <header class="site-header">
+    <div class="container">
+      <div class="brand">
+        <span>MedFlow</span> Pro
+      </div>
+      <nav class="main-nav">
+        <a href="index.html" class="active" data-i18n="nav.home">Home</a>
+        <a href="reception.html" data-i18n="nav.reception">Reception</a>
+        <a href="doctor.html" data-i18n="nav.doctor">Doctor</a>
+        <a href="pharmacy.html" data-i18n="nav.pharmacy">Pharmacy</a>
+        <a href="lab.html" data-i18n="nav.lab">Lab</a>
+        <a href="ipd.html" data-i18n="nav.ipd">IPD</a>
+      </nav>
+      <div class="header-right-group">
+        <select id="languageSelect" class="language-selector">
+          <option value="en">English</option>
+          <option value="hi">हिंदी</option>
+          <option value="mr">मराठी</option>
+        </select>
+        <a href="reception.html" class="btn btn-sm btn-primary" data-i18n="btn.launch">Launch App</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero-section" style="padding: 120px 0 80px;">
+    <div class="container hero-content animate-fade-in" style="max-width: 900px; text-align: center;">
+      <h1 data-i18n="hero.title" style="font-size: 3.5rem; line-height: 1.2; margin-bottom: 24px;">Streamline Your
+        Medical Practice</h1>
+      <p data-i18n="hero.subtitle"
+        style="font-size: 1.25rem; opacity: 0.9; margin-bottom: 40px; color: var(--text-secondary);">The all-in-one
+        solution for patient management, doctor consultations, and pharmacy operations. Efficient, secure, and
+        professional.</p>
+
+      <div style="display: flex; gap: 16px; justify-content: center; flex-wrap: wrap;">
+        <a href="reception.html" class="cta-button" data-i18n="hero.cta">Get Started Now</a>
+        <a href="#how-it-works" class="btn btn-secondary"
+          style="border-radius: 50px; padding: 16px 32px; font-weight: 600;">Learn More</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- How It Works Section -->
+  <section id="how-it-works" style="padding: 60px 0; flex-grow: 1;">
+    <div class="container">
+      <h2 style="text-align: center; margin-bottom: 48px; color: var(--primary-dark);">Comprehensive Healthcare
+        Management</h2>
+
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 32px;">
+
+        <div class="feature-card" style="padding: 32px;">
+          <div class="feature-icon"
+            style="font-size: 2rem; width: 64px; height: 64px; display: flex; align-items: center; justify-content: center; margin-bottom: 24px;">
+            📋</div>
+          <h3 data-i18n="feature.reception.title">Smart Reception</h3>
+          <p data-i18n="feature.reception.desc" style="color: var(--text-secondary);">Effortlessly register patients,
+            assign tokens, and manage the waiting queue in real-time.</p>
+          <ul style="margin-top: 16px; color: var(--text-muted); padding-left: 20px;">
+            <li>Fast Patient Registration</li>
+            <li>Token & Queue Management</li>
+            <li>Department Routing</li>
+          </ul>
+          <a href="reception.html" class="feature-link" data-i18n="feature.reception.link"
+            style="display: inline-block; margin-top: 20px;">Access Reception →</a>
+        </div>
+
+        <div class="feature-card" style="padding: 32px;">
+          <div class="feature-icon"
+            style="font-size: 2rem; width: 64px; height: 64px; display: flex; align-items: center; justify-content: center; margin-bottom: 24px;">
+            🩺</div>
+          <h3 data-i18n="feature.doctor.title">Doctor Dashboard</h3>
+          <p data-i18n="feature.doctor.desc" style="color: var(--text-secondary);">View patient history, access reports,
+            and prescribe medication with a dedicated interface.</p>
+          <ul style="margin-top: 16px; color: var(--text-muted); padding-left: 20px;">
+            <li>Digital Prescriptions</li>
+            <li>Patient History View</li>
+            <li>One-click Pharmacy & Lab</li>
+          </ul>
+          <a href="doctor.html" class="feature-link" data-i18n="feature.doctor.link"
+            style="display: inline-block; margin-top: 20px;">Access Doctor Console →</a>
+        </div>
+
+        <div class="feature-card" style="padding: 32px;">
+          <div class="feature-icon"
+            style="font-size: 2rem; width: 64px; height: 64px; display: flex; align-items: center; justify-content: center; margin-bottom: 24px;">
+            💊</div>
+          <h3 data-i18n="feature.pharmacy.title">Pharmacy Center</h3>
+          <p data-i18n="feature.pharmacy.desc" style="color: var(--text-secondary);">Track prescriptions, manage
+            inventory status, and ensure timely medication delivery.</p>
+          <ul style="margin-top: 16px; color: var(--text-muted); padding-left: 20px;">
+            <li>Live Prescription Feed</li>
+            <li>Inventory Status</li>
+            <li>Delivery Tracking</li>
+          </ul>
+          <a href="pharmacy.html" class="feature-link" data-i18n="feature.pharmacy.link"
+            style="display: inline-block; margin-top: 20px;">Access Pharmacy →</a>
+        </div>
+
+        <div class="feature-card" style="padding: 32px;">
+          <div class="feature-icon"
+            style="font-size: 2rem; width: 64px; height: 64px; display: flex; align-items: center; justify-content: center; margin-bottom: 24px;">
+            🔬</div>
+          <h3 data-i18n="header.subtitle.lab">Pathology Lab</h3>
+          <p style="color: var(--text-secondary);">Integrated lab management for test requests, sample collection, and
+            reporting.</p>
+          <ul style="margin-top: 16px; color: var(--text-muted); padding-left: 20px;">
+            <li>Test Request Management</li>
+            <li>Sample Tracking</li>
+            <li>Report Generation</li>
+          </ul>
+          <a href="lab.html" class="feature-link" style="display: inline-block; margin-top: 20px;">Access Lab →</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="site-footer"
+    style="padding: 40px 0; text-align: center; margin-top: auto; width: 100%; border-top: 1px solid rgba(255,255,255,0.6);">
+    <div class="container">
+      <div class="brand" style="justify-content: center; margin-bottom: 16px; font-size: 1.5rem;">
+        <span>MedFlow</span> Pro
+      </div>
+      <p data-i18n="footer.copyright" style="font-size: 0.9rem;">&copy; 2025 MedFlow Pro Healthcare Systems. All rights
+        reserved.</p>
+    </div>
+  </footer>
+
+  <!-- Redirect Script -->
+  <script src="js/redirect-to-login.js"></script>
+  <script src="js/translations.js"></script>
+  <script src="js/i18n.js"></script>
+</body>
+
+</html>

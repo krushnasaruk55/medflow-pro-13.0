@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Doctor Dashboard - MedFlow Pro</title>
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="css/mobile.css">
+  <link rel="stylesheet" href="css/doctor.css">
+</head>
+
+<body class="doctor-page">
+  <div class="bg-decoration-premium blur-left"></div>
+  <div class="bg-decoration-premium blur-right"></div>
+
+  <!-- Header -->
+  <header class="site-header">
+    <div class="container-wide">
+      <div class="brand">
+        <span>MedFlow</span> Pro
+      </div>
+      <nav class="main-nav">
+        <a href="index.html" data-i18n="nav.home">Home</a>
+        <a href="reception.html" data-i18n="nav.reception">Reception</a>
+        <a href="doctor.html" class="active" data-i18n="nav.doctor">Doctor</a>
+        <a href="pharmacy.html" data-i18n="nav.pharmacy">Pharmacy</a>
+        <a href="lab.html" data-i18n="nav.lab">Lab</a>
+        <a href="ipd.html" data-i18n="nav.ipd">IPD</a>
+      </nav>
+      <div class="header-right-group">
+        <a href="prescription-settings.html" class="btn-icon settings-icon" title="Prescription Settings">⚙️</a>
+        <select id="doctorSelect" class="doctor-select-header">
+          <option value="" data-i18n="select.profile">Select Profile...</option>
+        </select>
+        <select id="languageSelect" class="language-selector">
+          <option value="en">English</option>
+          <option value="hi">हिंदी</option>
+          <option value="mr">मराठी</option>
+        </select>
+        <div class="header-subtitle mobile-hide" data-i18n="header.subtitle.doctor">
+          Doctor Dashboard
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <div class="container-wide dashboard-wrapper doctor-dashboard-content">
+    <div class="dashboard-grid">
+
+      <!-- Left Column: Patient List -->
+      <div class="card border-left-accent bg-indigo-light queue-sidebar queue-container-card">
+        <h3 class="text-indigo" data-i18n="doctor.queue">My Queue</h3>
+        <div id="queue-list" class="queue-list">
+          <!-- Injected by JS -->
+          <div class="empty-queue-msg" data-i18n="doctor.nopatients">
+            No patients waiting.
+          </div>
+        </div>
+      </div>
+
+      <!-- Right Column: Consultation Area -->
+      <div id="consultation-area" style="display: none;">
+        <div class="workspace-card">
+          <div class="workspace-header">
+            <div class="flex items-center">
+              <button id="btn-back-queue" class="btn-icon back-queue-btn mobile-only">⬅️</button>
+              <div>
+                <h2 id="p-name" class="text-primary patient-name-header">Patient Name</h2>
+                <div class="text-muted" id="p-details">Age / Gender</div>
+              </div>
+            </div>
+            <div class="badge waiting" id="p-token">Token #0</div>
+          </div>
+
+          <div class="consultation-grid">
+
+            <!-- Vitals & History -->
+            <div class="consultation-panel">
+              <h4 class="text-teal panel-heading" data-i18n="doctor.vitals">Vitals & History</h4>
+              <div class="form-group">
+                <label data-i18n="doctor.reason">Reason for Visit</label>
+                <div id="p-reason" class="reason-box">-</div>
+              </div>
+
+              <div class="form-group">
+                <label data-i18n="doctor.reports">Attached Reports</label>
+                <div id="p-reports" class="reports-container">
+                  <!-- Report links injected here -->
+                  <span class="text-muted no-reports-text">No reports attached.</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Diagnosis & Prescription -->
+            <div class="consultation-panel">
+              <h4 class="text-primary panel-heading" data-i18n="doctor.consultation">Consultation</h4>
+              <div class="form-group">
+                <label class="flex justify-between items-center">
+                  <span data-i18n="doctor.diagnosis">Diagnosis / Notes</span>
+                  <button type="button" id="btn-mic-diagnosis" class="btn-icon text-primary btn-mic-toggle"
+                    title="Dictate Diagnosis">
+                    🎤
+                  </button>
+                </label>
+                <textarea id="diagnosis" rows="3" placeholder="Clinical notes..."></textarea>
+              </div>
+              <div class="form-group">
+                <label class="flex justify-between items-center">
+                  <span data-i18n="doctor.prescription">Prescription</span>
+                  <button type="button" id="btn-mic-prescription" class="btn-icon text-primary btn-mic-toggle"
+                    title="Dictate Prescription">
+                    🎤
+                  </button>
+                  <button type="button" id="btn-ai-suggest" class="btn-icon text-accent ai-magic-btn"
+                    title="AI Suggestion">
+                    ✨
+                  </button>
+                </label>
+                <textarea id="prescription" rows="5" placeholder="Rx..."></textarea>
+              </div>
+              <div class="form-group">
+                <label data-i18n="doctor.followup">Next Follow-up Visit</label>
+                <input type="date" id="followUpDate">
+              </div>
+            </div>
+
+          </div>
+
+          <div class="flex gap-2 mt-4 action-bar">
+            <button id="btn-download-pdf" class="btn btn-secondary border-left-accent" data-i18n="btn.download">📄
+              Download PDF</button>
+            <button id="btn-save" class="btn btn-secondary" data-i18n="btn.save">Save Notes</button>
+            <button id="btn-pharmacy" class="btn btn-primary" data-i18n="btn.sendPharmacy">💊 Send to Pharmacy</button>
+            <button id="btn-lab" class="btn btn-primary btn-teal" data-i18n="btn.sendLab">🔬 Send to Lab</button>
+            <button id="btn-admit" class="btn btn-secondary btn-warning-custom">🏥 Admit Patient</button>
+            <button id="btn-complete" class="btn btn-accent" data-i18n="btn.complete">Mark Completed</button>
+          </div>
+        </div>
+
+        <div id="empty-consultation" class="card empty-state-consultation" data-i18n="doctor.selectPatient">
+          Select a patient from the queue to start consultation.
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Admission Modal -->
+    <div class="modal modal-backdrop-custom" id="admitModal">
+      <div class="modal-content-custom">
+        <h3 class="mb-20">Admit Patient</h3>
+        <div class="form-group">
+          <label>Select Ward</label>
+          <select id="admitWard" onchange="loadAvailableBeds()">
+            <option value="">-- Select Ward --</option>
+            <!-- Filled via JS -->
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Select Bed</label>
+          <select id="admitBed">
+            <option value="">-- Select Bed --</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Admission Note</label>
+          <textarea id="admitNote" rows="3" placeholder="Reason for admission..."></textarea>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-secondary"
+            onclick="document.getElementById('admitModal').style.display='none'">Cancel</button>
+          <button class="btn btn-primary" onclick="submitAdmission()">Confirm Admission</button>
+        </div>
+      </div>
+    </div>
+
+    <div id="voice-status" class="voice-status-overlay">
+      <div class="voice-wave">
+        <div class="wave-bar"></div>
+        <div class="wave-bar"></div>
+        <div class="wave-bar"></div>
+        <div class="wave-bar"></div>
+        <div class="wave-bar"></div>
+      </div>
+      <span class="status-label">Listening...</span>
+      <span id="interim-text" class="interim-text">...</span>
+    </div>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="js/dashboard-loader.js"></script>
+    <script src="js/aiService.js"></script>
+    <script src="js/doctor.js"></script>
+    <script src="js/translations.js"></script>
+    <script src="js/i18n.js"></script>
+    <script src="js/chat-widget.js"></script>
+
+</body>
+
+</html>

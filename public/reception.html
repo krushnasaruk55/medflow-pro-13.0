@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Reception - MedFlow Pro</title>
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="css/reception.css">
+  <link rel="stylesheet" href="css/mobile.css">
+</head>
+
+<body class="reception-page">
+
+  <!-- Header -->
+  <header class="site-header">
+    <div class="container-wide">
+      <div class="brand">
+        <span>MedFlow</span> Pro
+      </div>
+      <nav class="main-nav">
+        <a href="index.html" data-i18n="nav.home">Home</a>
+        <a href="reception.html" class="active" data-i18n="nav.reception">Reception</a>
+        <a href="doctor.html" data-i18n="nav.doctor">Doctor</a>
+        <a href="pharmacy.html" data-i18n="nav.pharmacy">Pharmacy</a>
+        <a href="lab.html" data-i18n="nav.lab">Lab</a>
+        <a href="ipd.html" data-i18n="nav.ipd">IPD</a>
+      </nav>
+      <div class="header-right-group">
+        <select id="languageSelect" class="language-selector">
+          <option value="en">English</option>
+          <option value="hi">हिंदी</option>
+          <option value="mr">मराठी</option>
+        </select>
+        <div class="header-subtitle" data-i18n="header.subtitle.reception">
+          Reception Desk
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <div class="container-wide">
+    <div class="dashboard-grid">
+
+      <!-- Left Column: Registration -->
+      <div class="card border-left-primary">
+        <h3 data-i18n="reception.register.title">New Patient Registration</h3>
+        <p class="card-subtitle" data-i18n="reception.register.subtitle">Enter patient details to generate a token.</p>
+
+        <form id="regForm" autocomplete="off">
+          <div class="form-group">
+            <label data-i18n="label.fullname">Full Name</label>
+            <input type="text" id="name" placeholder="e.g. karan dhotre" required autocomplete="off">
+          </div>
+
+          <div class="flex gap-2 form-group">
+            <div class="flex-1">
+              <label data-i18n="label.age">Age</label>
+              <input type="number" id="age" placeholder="Age" required autocomplete="off">
+            </div>
+            <div class="flex-1">
+              <label data-i18n="label.gender">Gender</label>
+              <select id="gender">
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+                <option value="Other">Other</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label data-i18n="label.phone">Phone Number</label>
+            <input type="tel" id="phone" placeholder="10-digit mobile number" required autocomplete="off">
+          </div>
+
+          <div class="form-group">
+            <label data-i18n="label.address">Address</label>
+            <textarea id="address" rows="2" placeholder="Patient address" autocomplete="off"></textarea>
+          </div>
+
+          <div class="flex gap-2 form-group">
+            <div class="flex-1">
+              <label data-i18n="label.patientType">Patient Type</label>
+              <select id="patientType">
+                <option value="New">New</option>
+                <option value="Follow-up">Follow-up</option>
+                <option value="Emergency">Emergency</option>
+              </select>
+            </div>
+            <div class="flex-1">
+              <label data-i18n="label.opdipd">OPD/IPD</label>
+              <select id="opdipd">
+                <option value="OPD">OPD</option>
+                <option value="IPD">IPD</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label data-i18n="label.department">Department</label>
+            <select id="department">
+              <!-- Loaded by JS -->
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label data-i18n="label.assignDoctor">Assign Doctor</label>
+            <select id="doctor">
+              <option value="" data-i18n="auto.assign">(Auto Assign)</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label data-i18n="label.purpose">Purpose of Visit</label>
+            <textarea id="reason" rows="2" placeholder="Brief symptoms or reason..." autocomplete="off"></textarea>
+          </div>
+
+          <div class="form-group">
+            <label data-i18n="label.fee">Consultation Fee (₹)</label>
+            <input type="number" id="cost" value="500" autocomplete="off">
+          </div>
+
+          <div class="form-group">
+            <label data-i18n="label.upload">Upload Reports (Optional)</label>
+            <div class="file-upload-wrapper">
+              <label for="reports" class="file-upload-label">
+                <span id="fileLabelText">Click to upload files (Images/PDF)</span>
+              </label>
+              <input type="file" id="reports" class="file-upload-input" multiple accept="image/*,application/pdf">
+            </div>
+          </div>
+
+          <div id="status" class="mb-4 status-msg-area"></div>
+
+          <div class="flex gap-2">
+            <button type="submit" class="btn btn-primary flex-1" data-i18n="btn.register">Register Patient</button>
+            <button type="button" class="btn btn-secondary" onclick="document.getElementById('regForm').reset()"
+              data-i18n="btn.clear">Clear</button>
+          </div>
+        </form>
+      </div>
+
+      <!-- Right Column: Dashboard & Queue -->
+      <div>
+
+        <!-- Stats Widgets -->
+        <div class="stats-grid">
+          <div class="stat-card bg-indigo-light">
+            <div class="stat-label text-indigo" data-i18n="stats.today">Today's Patients</div>
+            <div class="stat-value text-indigo" id="stat-total">0</div>
+          </div>
+          <div class="stat-card bg-orange-light">
+            <div class="stat-label text-orange" data-i18n="stats.waiting">Waiting</div>
+            <div class="stat-value text-orange" id="stat-waiting">0</div>
+          </div>
+          <div class="stat-card bg-teal-light">
+            <div class="stat-label text-teal" data-i18n="stats.withDoctor">With Doctor</div>
+            <div class="stat-value text-teal" id="stat-doctor">0</div>
+          </div>
+          <div class="stat-card bg-purple-light">
+            <div class="stat-label text-purple" data-i18n="stats.completed">Completed</div>
+            <div class="stat-value text-purple" id="stat-completed">0</div>
+          </div>
+        </div>
+
+        <!-- Patient Queue -->
+        <div class="card">
+          <div class="flex justify-between items-center mb-4">
+            <h3 data-i18n="queue.title">Patient Queue</h3>
+            <div class="flex gap-2">
+              <button id="exportMonth" class="btn btn-sm btn-secondary">Export Monthly</button>
+              <button id="exportYear" class="btn btn-sm btn-secondary">Export Yearly</button>
+            </div>
+          </div>
+
+          <div class="table-container reception-table-container">
+            <table>
+              <thead>
+                <tr>
+                  <th data-i18n="table.token">Token</th>
+                  <th data-i18n="table.name">Patient Name</th>
+                  <th data-i18n="table.ageGender">Age/Gender</th>
+                  <th data-i18n="table.dept">Department</th>
+                  <th data-i18n="table.doctor">Doctor</th>
+                  <th data-i18n="table.status">Status</th>
+                  <th data-i18n="table.actions">Actions</th>
+                </tr>
+              </thead>
+              <tbody id="patients-table-body">
+                <!-- Rows injected by JS -->
+              </tbody>
+            </table>
+          </div>
+          <div id="empty-state" class="empty-queue-message">
+            No patients in the queue today.
+          </div>
+        </div>
+
+        <!-- Pagination Controls -->
+        <div class="flex justify-between items-center mt-4 pagination-wrapper" id="pagination-controls">
+          <button id="prevPage" class="btn btn-sm btn-secondary" disabled>Previous</button>
+          <span id="pageIndicator" class="pageIndicator">Page 1</span>
+          <button id="nextPage" class="btn btn-sm btn-secondary" disabled>Next</button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="js/dashboard-loader.js"></script>
+  <script src="js/reception.js"></script>
+  <script src="js/translations.js"></script>
+  <script src="js/i18n.js"></script>
+  <script src="js/chat-widget.js"></script>
+</body>
+
+</html>

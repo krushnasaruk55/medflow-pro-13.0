@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pharmacy - MedFlow Pro</title>
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="css/mobile.css">
+  <link rel="stylesheet" href="css/pharmacy.css">
+</head>
+
+<body class="pharmacy-page">
+
+  <!-- Header -->
+  <header class="site-header">
+    <div class="container-wide">
+      <div class="brand">
+        <span>MedFlow</span> Pro
+      </div>
+      <nav class="main-nav">
+        <a href="index.html" data-i18n="nav.home">Home</a>
+        <a href="reception.html" data-i18n="nav.reception">Reception</a>
+        <a href="doctor.html" data-i18n="nav.doctor">Doctor</a>
+        <a href="pharmacy.html" class="active" data-i18n="nav.pharmacy">Pharmacy</a>
+        <a href="lab.html" data-i18n="nav.lab">Lab</a>
+        <a href="ipd.html" data-i18n="nav.ipd">IPD</a>
+      </nav>
+      <div class="header-right-group">
+        <select id="languageSelect" class="language-selector">
+          <option value="en">English</option>
+          <option value="hi">हिंदी</option>
+          <option value="mr">मराठी</option>
+        </select>
+        <div class="header-subtitle" data-i18n="header.subtitle.pharmacy">
+          Pharmacy Center
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <div class="container-wide">
+
+    <!-- Tabs -->
+    <div class="tabs-container">
+      <button class="tab-btn active" onclick="switchTab('queue')" id="btn-queue">
+        Prescription Queue
+      </button>
+      <button class="tab-btn" onclick="switchTab('inventory')" id="btn-inventory">
+        Inventory & Stock
+      </button>
+      <button class="tab-btn" onclick="switchTab('billing')" id="btn-billing">
+        Billing
+      </button>
+    </div>
+
+    <!-- STATS -->
+    <div class="dashboard-grid no-grid-cols-force">
+
+      <!-- Stats Widgets -->
+      <div class="stats-grid">
+        <div class="stat-card bg-orange-light">
+          <div class="stat-label text-orange" data-i18n="stats.pending">Pending Orders</div>
+          <div class="stat-value text-orange" id="stat-pending">0</div>
+        </div>
+        <div class="stat-card bg-indigo-light">
+          <div class="stat-label text-indigo" data-i18n="stats.ready">Ready for Pickup</div>
+          <div class="stat-value text-indigo" id="stat-prepared">0</div>
+        </div>
+        <div class="stat-card bg-teal-light">
+          <div class="stat-label text-teal" data-i18n="stats.delivered">Delivered Today</div>
+          <div class="stat-value text-teal" id="stat-delivered">0</div>
+        </div>
+      </div>
+
+      <!-- Tab Content: Queue -->
+      <div id="tab-queue">
+        <div class="card">
+          <div class="flex justify-between items-center mb-4">
+            <h3 data-i18n="queue.pharmacyTitle">Prescription Queue</h3>
+            <input type="text" id="search" placeholder="Search Patient Name..." class="pharmacy-search-input"
+              data-i18n-target="placeholder" data-i18n="search.placeholder">
+          </div>
+
+          <div class="table-container">
+            <table>
+              <thead>
+                <tr>
+                  <th data-i18n="table.token">Token</th>
+                  <th data-i18n="table.name">Patient Name</th>
+                  <th data-i18n="table.prescription">Prescription</th>
+                  <th data-i18n="table.status">Status</th>
+                  <th data-i18n="table.actions">Actions</th>
+                </tr>
+              </thead>
+              <tbody id="pharmacy-table-body">
+                <!-- Rows injected by JS -->
+              </tbody>
+            </table>
+          </div>
+          <div id="empty-state" class="empty-queue-message">
+            No pending prescriptions.
+          </div>
+        </div>
+      </div>
+
+      <!-- Tab Content: Inventory -->
+      <div id="tab-inventory" style="display: none;">
+        <!-- Alerts Section -->
+        <div class="alerts-grid">
+          <div class="card alert-card-low-stock">
+            <h4 class="alert-title-low">
+              ⚠️ Low Stock Alerts
+            </h4>
+            <div id="alert-low-stock" class="alert-content">
+              <p class="text-muted">Loading...</p>
+            </div>
+          </div>
+
+          <div class="card alert-card-expiry">
+            <h4 class="alert-title-expiry">
+              ⏳ Expiry Alerts (Next 30 Days)
+            </h4>
+            <div id="alert-expiry" class="alert-content">
+              <p class="text-muted">Loading...</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Inventory Table -->
+        <div class="card">
+          <div class="flex justify-between items-center mb-4">
+            <h3>Medicine Inventory</h3>
+            <button class="btn btn-primary" onclick="openAddInventoryModal()">+ Add Medicine</button>
+          </div>
+          <div class="table-container">
+            <table class="inventory-table">
+              <thead>
+                <tr>
+                  <th>Medicine Name</th>
+                  <th>Category</th>
+                  <th>Batch #</th>
+                  <th>Expiry</th>
+                  <th>Stock</th>
+                  <th>Unit Price</th>
+                </tr>
+              </thead>
+              <tbody id="inventory-table-body">
+                <!-- Rows injected by JS -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tab Content: Billing -->
+      <div id="tab-billing" style="display: none;">
+        <div class="billing-grid">
+
+          <!-- Left: New Bill -->
+          <div class="card">
+            <h3>New Invoice</h3>
+            <div class="grid-2 grid-mb-20">
+              <div class="form-group">
+                <label>Patient Name</label>
+                <input type="text" id="bill-p-name" placeholder="Enter name">
+              </div>
+              <div class="form-group">
+                <label>Phone Number</label>
+                <input type="text" id="bill-p-phone" placeholder="9876543210">
+              </div>
+            </div>
+
+            <div class="add-item-box">
+              <h4 style="font-size: 0.9rem; margin-bottom: 12px;">Add Item</h4>
+              <div class="add-item-row">
+                <div class="form-group flex-2">
+                  <label>Medicine</label>
+                  <input type="text" id="bill-item-search" list="med-list" placeholder="Search medicine...">
+                  <datalist id="med-list">
+                    <!-- Options injected by JS -->
+                  </datalist>
+                </div>
+                <div class="form-group flex-1">
+                  <label>Qty</label>
+                  <input type="number" id="bill-item-qty" value="1" min="1">
+                </div>
+                <button class="btn btn-primary add-btn" id="btn-add-bill-item">Add</button>
+              </div>
+            </div>
+
+            <div class="table-container">
+              <table style="width: 100%;">
+                <thead>
+                  <tr class="billing-table-header-row">
+                    <th class="billing-th">Item</th>
+                    <th class="billing-th">Batch</th>
+                    <th class="billing-th">Qty</th>
+                    <th class="billing-th">Price</th>
+                    <th class="billing-th">Amount</th>
+                    <th class="billing-th">Action</th>
+                  </tr>
+                </thead>
+                <tbody id="bill-items-body">
+                  <!-- Rows -->
+                </tbody>
+              </table>
+            </div>
+
+            <div class="billing-summary-footer">
+              <div class="billing-summary-box">
+                <div class="summary-row">
+                  <span>Subtotal:</span>
+                  <span id="bill-subtotal">₹0.00</span>
+                </div>
+                <div class="summary-row">
+                  <span>Tax (18%):</span>
+                  <span id="bill-tax">₹0.00</span>
+                </div>
+                <div class="summary-total-row">
+                  <span>Total:</span>
+                  <span id="bill-total" class="text-primary">₹0.00</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="flex justify-end gap-2 mt-4" style="border-top: 1px solid var(--border); padding-top: 16px;">
+              <select id="payment-method" class="login-input" style="width: auto;">
+                <option value="Cash">Cash</option>
+                <option value="UPI">UPI / Online</option>
+                <option value="Card">Card</option>
+                <option value="Insurance">Insurance</option>
+                <option value="IPD">IPD Account (Add to Bill)</option>
+              </select>
+              <button id="btn-generate-bill" class="btn btn-primary">Generate Bill & Print</button>
+            </div>
+          </div>
+
+          <!-- Right: History -->
+          <div class="card history-card">
+            <h3>Recent Bills</h3>
+            <div id="billing-history-list">
+              <p class="text-muted history-loading">Loading history...</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Add Inventory Modal -->
+  <div id="inventory-modal" class="modal-overlay" style="display: none;">
+    <div class="modal">
+      <h3>Add New Medicine</h3>
+      <form id="inventory-form" class="inventory-form-mt">
+        <div class="form-group">
+          <label>Medicine Name</label>
+          <input type="text" id="inv-name" required>
+        </div>
+        <div class="grid-2">
+          <div class="form-group">
+            <label>Category</label>
+            <select id="inv-category">
+              <option value="Tablet">Tablet</option>
+              <option value="Syrup">Syrup</option>
+              <option value="Injection">Injection</option>
+              <option value="Cream">Cream</option>
+              <option value="Drops">Drops</option>
+              <option value="Other">Other</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Batch Number</label>
+            <input type="text" id="inv-batch" required>
+          </div>
+        </div>
+        <div class="grid-2">
+          <div class="form-group">
+            <label>Quantity</label>
+            <input type="number" id="inv-qty" required>
+          </div>
+          <div class="form-group">
+            <label>Min Level (Alert)</label>
+            <input type="number" id="inv-min" value="10">
+          </div>
+        </div>
+        <div class="grid-2">
+          <div class="form-group">
+            <label>Expiry Date</label>
+            <input type="date" id="inv-expiry" required>
+          </div>
+          <div class="form-group">
+            <label>Unit Price (₹)</label>
+            <input type="number" id="inv-price" step="0.01">
+          </div>
+        </div>
+        <div class="flex justify-end gap-2 mt-4">
+          <button type="button" class="btn btn-secondary"
+            onclick="document.getElementById('inventory-modal').style.display='none'">Cancel</button>
+          <button type="submit" class="btn btn-primary">Save Item</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="/socket.io/socket.io.js"></script>
+  <script>
+    // Simple Tab Switcher Script within HTML for speed, logic will be in pharmacy.js
+    function switchTab(tab) {
+      document.querySelectorAll('.tab-btn').forEach(b => {
+        b.classList.remove('active');
+        // No need to manually reset styles if we use class
+      });
+      document.getElementById('btn-' + tab).classList.add('active');
+
+      document.getElementById('tab-queue').style.display = tab === 'queue' ? 'block' : 'none';
+      document.getElementById('tab-inventory').style.display = tab === 'inventory' ? 'block' : 'none';
+      document.getElementById('tab-billing').style.display = tab === 'billing' ? 'block' : 'none';
+
+      if (tab === 'inventory' && window.loadInventory) {
+        window.loadInventory();
+        window.loadAlerts();
+      }
+      if (tab === 'billing' && window.initBilling) {
+        window.initBilling();
+      }
+    }
+
+    function openAddInventoryModal() {
+      document.getElementById('inventory-modal').style.display = 'flex';
+    }
+  </script>
+
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="js/pharmacy.js"></script>
+  <script src="js/translations.js"></script>
+  <script src="js/i18n.js"></script>
+  <script src="js/chat-widget.js"></script>
+</body>
+
+</html>

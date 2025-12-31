@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Prescription - MedFlow Pro</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/mobile.css">
+
+</head>
+
+<body>
+
+    <div id="loading" class="loading">
+        Loading prescription details...
+    </div>
+
+    <div id="error" class="loading" style="display: none; color: var(--danger);">
+        Invalid or expired link.
+    </div>
+
+    <div id="content" class="prescription-card" style="display: none;">
+        <div class="card-header">
+            <div class="hospital-name" id="h-name">Hospital Name</div>
+            <div class="hospital-details" id="h-address">Hospital Address</div>
+        </div>
+
+        <div class="card-body">
+            <div class="patient-info">
+                <div class="info-row">
+                    <span class="info-label">Patient Name</span>
+                    <span class="info-value" id="p-name">--</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Age / Gender</span>
+                    <span class="info-value" id="p-details">--</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Date</span>
+                    <span class="info-value" id="v-date">--</span>
+                </div>
+            </div>
+
+            <div class="section-title">
+                📝 Diagnosis
+            </div>
+            <p id="p-diagnosis" style="margin-bottom: 24px; color: var(--text-main);">
+                --
+            </p>
+
+            <div class="section-title">
+                💊 Prescribed Medications
+            </div>
+            <ul class="medication-list" id="med-list">
+                <!-- Injected by JS -->
+            </ul>
+
+            <div class="doctor-signature">
+                <div class="doc-name" id="d-name">Dr. Name</div>
+                <div class="doc-meta">Attending Physician</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer">
+        Powered by MedFlow Pro
+    </div>
+
+    <script>
+        // Simple inline script for this standalone page
+        async function loadPrescription() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const token = urlParams.get('token');
+
+            if (!token) {
+                showError();
+                return;
+            }
+
+            try {
+                const response = await fetch(`/api/public/prescription/${token}`);
+                if (!response.ok) throw new Error('Failed to load');
+
+                const data = await response.json();
+                renderPrescription(data);
+            } catch (error) {
+                console.error(error);
+                showError();
+            }
+        }
+
+        function renderPrescription(data) {
+            document.getElementById('loading').style.display = 'none';
+            document.getElementById('content').style.display = 'block';
+
+            // Hospital Info
+            document.getElementById('h-name').textContent = data.hospital.name;
+            document.getElementById('h-address').textContent = data.hospital.address || '';
+
+            // Patient Info
+            document.getElementById('p-name').textContent = data.patient.name;
+            document.getElementById('p-details').textContent = `${data.patient.age} / ${data.patient.gender}`;
+            document.getElementById('v-date').textContent = new Date(data.patient.updatedAt || Date.now()).toLocaleDateString();
+
+            // Clinical Info
+            document.getElementById('p-diagnosis').textContent = data.patient.diagnosis || 'No diagnosis recorded.';
+            document.getElementById('d-name').textContent = data.doctor ? data.doctor.name : 'Doctor';
+
+            // Medications
+            const medList = document.getElementById('med-list');
+            medList.innerHTML = '';
+
+            if (data.patient.prescription) {
+                const lines = data.patient.prescription.split('\n');
+                lines.forEach(line => {
+                    if (line.trim()) {
+                        const li = document.createElement('li');
+                        li.className = 'medication-item';
+                        li.innerHTML = `<div class="med-name">${line}</div>`;
+                        medList.appendChild(li);
+                    }
+                });
+            } else {
+                medList.innerHTML = '<li class="medication-item" style="color: var(--text-muted);">No medications prescribed.</li>';
+            }
+        }
+
+        function showError() {
+            document.getElementById('loading').style.display = 'none';
+            document.getElementById('error').style.display = 'block';
+        }
+
+        loadPrescription();
+    </script>
+</body>
+
+</html>

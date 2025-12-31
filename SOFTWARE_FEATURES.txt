@@ -1,0 +1,154 @@
+MedFlow Pro - Comprehensive Software Feature Documentation
+
+1. SOFTWARE OVERVIEW
+--------------------
+MedFlow Pro is a state-of-the-art Hospital Management System (HMS) designed to streamline healthcare operations. It features a modern, glassmorphism-inspired UI, real-time data synchronization using WebSockets, and a modular architecture catering to Doctors, Receptionists, Pharmacists, Lab Technicians, Administrators, and Patients.
+
+2. SYSTEM ARCHITECTURE & CORE MODULES
+-------------------------------------
+The software is divided into distinct role-based modules:
+- Reception Dashboard: For patient registration and queue management.
+- Doctor Dashboard: For consultation, diagnosis, and electronic prescriptions.
+- Pharmacy Dashboard: For medicine dispensing, inventory, and billing.
+- Pathology Lab Dashboard: For sample collection, testing, and reports.
+- IPD Management: For In-Patient Department admission, bed tracking, and rounds.
+- Super Admin Panel: For system-wide configuration and hospital management.
+- Patient Mobile App: A dedicated porta for patients to book appointments and view records.
+- Public Portal: Token-based access for viewing prescriptions without login.
+
+3. AUTHENTICATION & SECURITY
+----------------------------
+- Role-Based Access Control (RBAC): Distinct logins for Admin, Doctor, Reception, Pharmacy, Lab, and Super Admin.
+- Monthly Hospital Password: A unique security feature where hospitals use a generated monthly code + admin credentials.
+- Secure Sessions: MongoDB-backed persistent sessions with secure cookies.
+- Rate Limiting: Protection against brute-force and DDoS attacks on API endpoints.
+- Auto-Logout: Secure session termination.
+
+4. RECEPTION MODULE FEATURES
+----------------------------
+A. Patient Registration & Check-In
+   - Smart Form: Captures Name, Age, Gender, Phone, Address.
+   - Patient Type Categorization: New, Follow-up, or Emergency cases.
+   - OPD/IPD Selection: Route patient to Out-Patient or In-Patient flows.
+   - Dynamic Department Selection: Fetches active departments.
+   - Doctor Assignment: Specific doctor selection or "Auto Assign" logic.
+   - Consultation Fee: Adjustable fee field.
+   - Report Upload: Capability to upload previous medical reports (Images/PDFs) during registration.
+
+B. Queue Management
+   - Real-Time Statistics: Visual counters for Today's Total, Waiting, With Doctor, and Completed patients.
+   - Live Queue Table: Displaying Token #, Patient details, Status, and Actions.
+   - Queue Status Tracking: Monitors patient journey (Waiting -> With Doctor -> Completed).
+
+C. Data Export
+   - Excel Export: One-click export of patient data for Monthly or Yearly periods.
+
+5. DOCTOR MODULE FEATURES
+-------------------------
+A. Consultation Workspace
+   - Live Patient Queue: Real-time updates via Socket.IO.
+   - Patient history view: Vitals, Reason for visit, and attached reports preview.
+   - Interactive Consultation:
+     - Diagnosis & Clinical Notes area.
+     - Prescription writing area.
+     - Next Follow-up Date picker.
+
+B. AI & Smart Features
+   - AI Prescription Suggestions: Generates prescription advice based on the diagnosis using integrated logic.
+   - Voice Dictation (Speech-to-Text): Dedicated microphone buttons for dictating Diagnosis and Prescriptions.
+
+C. Actionable Workflows
+   - Send to Pharmacy: Digital forwarding of prescriptions to the pharmacy module.
+   - Send to Lab: Creation of lab test requests directly from the consultation screen.
+   - IPD Admission: One-click admission to open the Bed Selection modal.
+   - Download PDF: Auto-generates a branded PDF prescription for the patient.
+   - Save Notes: Draft saving capability.
+
+6. PHARMACY MODULE FEATURES
+---------------------------
+A. Prescription Fulfillment
+   - Digital Queue: Instantly receives prescriptions sent by doctors.
+   - Status Tracking: Pending -> Ready -> Delivered workflows.
+   - Searchable Database: Find patients by name/token.
+
+B. Inventory Management
+   - Comprehensive Stock Tracking: Medicine Name, Batch #, Category (Tablet, Syrup, Injection, etc.).
+   - Smart Alerts:
+     - Low Stock Warning (customizable threshold).
+     - Expiry Alerts (Visually highlights items expiring in <30 days).
+   - Add Inventory Modal: Detailed form for new stock entry.
+
+C. Point of Sale (Billing)
+   - New Invoice Generation: Auto-calculates Subtotal, Tax (GST), and Total.
+   - Stock Deduction: Automatically reduces inventory count upon billing.
+   - Payment Methods: Support for Cash, UPI, and Card.
+   - Invoice History: Log of all generated bills.
+   - Print Bill: Generates thermal-printer friendly receipts.
+
+7. PATHOLOGY LAB MODULE FEATURES
+--------------------------------
+A. Workflow Management
+   - Test Requests: Incoming requests from Doctors.
+   - Sample Collection: Workflow stage for physical sample intake.
+   - Processing: Tracking status of tests in progress.
+   - Results Entry: Form for entering test values (e.g., Hemoglobin levels).
+   - Abnormal Value Detection: UI highlights values outside normal ranges.
+
+B. Reporting
+   - Report Generation: Creates final lab reports.
+   - Inventory: Specific tracking for reagents and lab supplies.
+
+8. IPD (IN-PATIENT DEPT) FEATURES
+---------------------------------
+A. Visual Bed Management
+   - Ward Layouts: Graphical representation of wards.
+   - Bed Status Indicators: Color-coded system (Green=Available, Red=Occupied, Yellow=Cleaning).
+   - Interactive Map: Click-to-manage functionality on individual beds.
+
+B. Patient Management
+   - Admission Workflow: Assign Ward, Bed, and Admission Note.
+   - Round Notes: Doctors can add daily round notes/observations for admitted patients.
+   - Discharge Process: Workflow to release bed availability.
+
+9. PATIENT MOBILE APPLICATION
+-----------------------------
+A. User Experience
+   - App-like Interface: Bottom navigation, splash screen, and responsive design.
+   - Authentication Manager: Login/Register modal with Guest mode.
+
+B. Features
+   - Appointment Booking: Schedule visits (In-Person or Video Consultation).
+   - Live Queue Tracker: View current token status and estimated wait time remotely.
+   - Medical Records: Access past appointments and Lab Reports.
+   - Pharmacy Ordering: Upload prescription photos or type orders for delivery/pickup.
+   - Profile Management: Edit personal details.
+   - SOS/Emergency: Quick access to emergency contacts.
+   - Hospital Search: Find specialists or hospitals via search bar.
+
+10. SUPER ADMIN FEATURES
+------------------------
+- Hospital Registry: View and manage all registered hospitals.
+- User Management: Create/Delete admins and staff accounts.
+- Subscription Management: Extend hospital software licenses and manage expiry dates.
+- Master Configuration: Reset system passwords/access codes.
+
+11. BACKEND & TECHNICAL CAPABILITIES
+------------------------------------
+A. Technology Stack
+   - Runtime: Node.js (Express framework).
+   - Database: MongoDB (with Mongoose ORM).
+   - Real-time Engine: Socket.IO for instant updates across dashboards (no refresh needed).
+   - Session Store: MongoDB-backed persistent sessions.
+
+B. Key Technical Features
+   - PDF Generation: Server-side PDF creation for prescriptions.
+   - File Uploads: Secure handling of patient reports.
+   - QR Code Generation: For quick patient/prescription access.
+   - Internationalization (i18n): Frontend support for multiple languages (English, Hindi, Marathi).
+   - Offline/Online status detection.
+
+12. NOTIFICATION SYSTEM
+-----------------------
+- Automated Reminders: Follow-up visit reminders.
+- Status Updates: Notifications for "Prescription Ready" or "Lab Result Available".
+- Appointment Confirmations: Instant confirmation upon booking.

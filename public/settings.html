@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hospital Settings - MedFlow Pro</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/mobile.css">
+
+</head>
+
+<body>
+    <!-- Header -->
+    <header class="site-header">
+        <div class="container"
+            style="display: flex; justify-content: space-between; align-items: center; padding: 15px 20px;">
+            <div class="brand" style="font-size: 1.5rem; font-weight: 700;">
+                <span
+                    style="background: var(--accent-grad); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">MedFlow</span>
+                Pro
+            </div>
+            <nav style="display: flex; gap: 24px;">
+                <a href="index.html" style="text-decoration: none; color: var(--text-secondary);">Home</a>
+                <a href="doctor.html" style="text-decoration: none; color: var(--text-secondary);">Dashboard</a>
+            </nav>
+            <button class="btn btn-sm btn-outline" onclick="logout()" style="border-radius: 99px;">Logout</button>
+        </div>
+    </header>
+
+    <div class="settings-container">
+        <!-- Sidebar -->
+        <aside class="settings-sidebar">
+            <div class="nav-item active" onclick="switchTab('general')">
+                <span>🏥</span> General Info
+            </div>
+            <div class="nav-item" onclick="switchTab('staff')">
+                <span>👥</span> Staff & Doctors
+            </div>
+            <div class="nav-item" onclick="switchTab('security')">
+                <span>🔒</span> Security
+            </div>
+        </aside>
+
+        <!-- Content Area -->
+        <main class="settings-content">
+
+            <!-- General Info Tab -->
+            <div id="tab-general" class="tab-content active">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 32px;">
+                    <h2>Hospital Profile</h2>
+                    <button class="btn-add" onclick="saveProfile()">Save Changes 💾</button>
+                </div>
+
+                <form id="profileForm">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label>Hospital Name</label>
+                            <input type="text" id="hospitalName" placeholder="e.g. City General Hospital">
+                        </div>
+                        <div class="form-group">
+                            <label>Official Email</label>
+                            <input type="email" id="hospitalEmail" readonly style="background: rgba(0,0,0,0.05);">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Address</label>
+                        <textarea id="hospitalAddress" rows="3" placeholder="Full physical address..."></textarea>
+                    </div>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label>Phone Number</label>
+                            <input type="text" id="hospitalPhone">
+                        </div>
+                        <div class="form-group">
+                            <label>Website (Optional)</label>
+                            <input type="text" id="hospitalWebsite">
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Staff Tab -->
+            <div id="tab-staff" class="tab-content">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 32px;">
+                    <h2>Staff Management</h2>
+                    <button class="btn-add" onclick="openAddUserModal()">+ Add New Staff</button>
+                </div>
+
+                <div class="user-list" id="userList">
+                    <div style="text-align: center; padding: 40px; color: var(--text-secondary);">Loading staff...</div>
+                </div>
+            </div>
+
+            <!-- Security Tab -->
+            <div id="tab-security" class="tab-content">
+                <h2>Security & Access</h2>
+                <div class="card"
+                    style="background: rgba(255,255,0,0.1); border: 1px solid #eab308; padding: 24px; border-radius: 16px; margin-bottom: 24px;">
+                    <h3 style="color: #ca8a04; margin-bottom: 8px;">Hospital Access Password</h3>
+                    <p style="margin-bottom: 16px; font-size: 0.95rem;">This is the shared password required for all
+                        staff members to verify hospital identity during login.</p>
+                    <div style="display: flex; align-items: center; gap: 16px;">
+                        <input type="text" id="hospitalAccessCode" readonly
+                            style="font-family: monospace; font-size: 1.2rem; font-weight: 700; width: 200px; text-align: center;">
+                        <button class="btn btn-sm btn-secondary" onclick="copyAccessCode()">Copy</button>
+                    </div>
+                </div>
+            </div>
+
+        </main>
+    </div>
+
+    <!-- Add User Modal -->
+    <div class="modal" id="addUserModal">
+        <div class="modal-content">
+            <h3 style="margin-bottom: 24px;">Add New Staff Member</h3>
+            <form id="addUserForm" onsubmit="event.preventDefault(); submitNewUser();">
+                <div class="form-group">
+                    <label>Full Name / Username</label>
+                    <input type="text" id="newUsername" required placeholder="e.g. Dr. John Doe">
+                </div>
+                <div class="form-group">
+                    <label>Role</label>
+                    <select id="newUserRole">
+                        <option value="doctor">Doctor</option>
+                        <option value="reception">Receptionist</option>
+                        <option value="pharmacy">Pharmacist</option>
+                        <option value="lab">Lab Technician</option>
+                        <option value="admin">Administrator</option>
+                    </select>
+                </div>
+                <!-- Doctor Specific (Department) -->
+                <div class="form-group" id="deptGroup">
+                    <label>Department</label>
+                    <select id="newUserDept">
+                        <option value="General">General</option>
+                        <option value="Cardiology">Cardiology</option>
+                        <option value="Pediatrics">Pediatrics</option>
+                        <option value="Orthopedics">Orthopedics</option>
+                        <option value="Dermatology">Dermatology</option>
+                        <option value="ENT">ENT</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" id="newUserPassword" required placeholder="Set temporary password">
+                </div>
+                <div style="display: flex; justify-content: flex-end; gap: 12px; margin-top: 32px;">
+                    <button type="button" class="btn btn-secondary" onclick="closeModal()">Cancel</button>
+                    <button type="submit" class="btn-add" style="border-radius: 12px;">Create User</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="js/hospital-settings.js"></script>
+</body>
+
+</html>

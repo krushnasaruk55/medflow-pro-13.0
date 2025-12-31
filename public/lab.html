@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lab Dashboard - MedFlow Pro</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/mobile.css">
+    <link rel="stylesheet" href="css/lab.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+</head>
+
+<body>
+
+    <!-- Header -->
+    <header class="site-header">
+        <div class="container-wide dashboard-wrapper">
+            <div class="brand">
+                <span>MedFlow</span> Pro
+            </div>
+            <nav class="main-nav">
+                <a href="index.html" data-i18n="nav.home">Home</a>
+                <a href="reception.html" data-i18n="nav.reception">Reception</a>
+                <a href="doctor.html" data-i18n="nav.doctor">Doctor</a>
+                <a href="pharmacy.html" data-i18n="nav.pharmacy">Pharmacy</a>
+                <a href="lab.html" class="active" data-i18n="nav.lab">Lab</a>
+                <a href="ipd.html" data-i18n="nav.ipd">IPD</a>
+            </nav>
+            <div class="header-right-group">
+                <select id="languageSelect" class="language-selector">
+                    <option value="en">English</option>
+                    <option value="hi">हिंदी</option>
+                    <option value="mr">मराठी</option>
+                </select>
+                <div class="header-subtitle" data-i18n="header.subtitle.lab">
+                    Pathology Lab
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="lab-container">
+        <!-- Sidebar -->
+        <aside class="lab-sidebar border-left-pink">
+            <div class="lab-nav-item active" onclick="showSection('overview')">
+                <span class="nav-icon">📊</span> <span data-i18n="lab.overview">Overview</span>
+            </div>
+            <div class="lab-nav-item" onclick="showSection('requests')">
+                <span class="nav-icon">🧪</span> <span data-i18n="lab.requests">Test Requests</span>
+            </div>
+            <div class="lab-nav-item" onclick="showSection('collection')">
+                <span class="nav-icon">🩸</span> <span data-i18n="lab.collection">Sample Collection</span>
+            </div>
+            <div class="lab-nav-item" onclick="showSection('processing')">
+                <span class="nav-icon">🔬</span> <span data-i18n="lab.processing">Test Processing</span>
+            </div>
+            <div class="lab-nav-item" onclick="showSection('results')">
+                <span class="nav-icon">📝</span> <span data-i18n="lab.results">Results Entry</span>
+            </div>
+            <div class="lab-nav-item" onclick="showSection('reports')">
+                <span class="nav-icon">📄</span> <span data-i18n="lab.reports">Reports & Delivery</span>
+            </div>
+            <div class="lab-nav-item" onclick="showSection('inventory')">
+                <span class="nav-icon">📦</span> <span data-i18n="lab.inventory">Inventory</span>
+            </div>
+            <div class="lab-nav-item" onclick="showSection('settings')">
+                <span class="nav-icon">⚙️</span> <span data-i18n="lab.settings">Settings</span>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="lab-content" id="main-content">
+            <!-- Content injected by JS -->
+        </main>
+    </div>
+
+    <!-- Modal for Actions -->
+    <div id="actionModal" class="modal-overlay" style="display: none;">
+        <div class="modal">
+            <div class="modal-header">
+                <h3 class="modal-title" id="modalTitle">Action</h3>
+                <button class="modal-close" onclick="closeModal()">×</button>
+            </div>
+            <div id="modalContent" style="margin: 20px 0;"></div>
+            <div class="flex gap-2 justify-end" style="justify-content: flex-end;">
+                <button class="btn btn-secondary" onclick="closeModal()">Cancel</button>
+                <button class="btn btn-primary" id="modalConfirmBtn">Confirm</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="js/lab.js"></script>
+    <script src="js/translations.js"></script>
+    <script src="js/i18n.js"></script>
+    <script src="js/chat-widget.js"></script>
+</body>
+
+</html>

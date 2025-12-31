@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IPD Management - MedFlow Pro</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/mobile.css">
+    <link rel="stylesheet" href="css/ipd.css">
+
+</head>
+
+<body>
+    <!-- Header -->
+    <header class="site-header">
+        <div class="container-wide">
+            <div class="brand">
+                <span>MedFlow</span> Pro
+            </div>
+            <nav class="main-nav">
+                <a href="index.html" data-i18n="nav.home">Home</a>
+                <a href="reception.html" data-i18n="nav.reception">Reception</a>
+                <a href="doctor.html" data-i18n="nav.doctor">Doctor</a>
+                <a href="pharmacy.html" data-i18n="nav.pharmacy">Pharmacy</a>
+                <a href="lab.html" data-i18n="nav.lab">Lab</a>
+                <a href="ipd.html" class="active" data-i18n="nav.ipd">IPD</a>
+            </nav>
+            <div class="header-right-group">
+                <button class="btn btn-sm btn-secondary" onclick="initializeBeds()" title="Reset Beds">⚙️</button>
+                <select id="languageSelect" class="language-selector">
+                    <option value="en">English</option>
+                    <option value="hi">हिंदी</option>
+                    <option value="mr">मराठी</option>
+                </select>
+                <div class="header-subtitle" data-i18n="header.subtitle.ipd">
+                    IPD Management
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="container-wide dashboard-wrapper">
+        <!-- Main Bed Map -->
+        <div class="main-panel">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                <h2 style="margin: 0;">In-Patient Wards</h2>
+                <div class="status-legend">
+                    <div class="legend-item">
+                        <div class="dot available"></div> Available
+                    </div>
+                    <div class="legend-item">
+                        <div class="dot occupied"></div> Occupied
+                    </div>
+                    <div class="legend-item">
+                        <div class="dot cleaning"></div> Cleaning
+                    </div>
+                </div>
+            </div>
+
+            <div id="wards-container">
+                <!-- Injected via JS -->
+                <div style="text-align: center; padding: 50px;">Loading beds...</div>
+            </div>
+        </div>
+
+        <!-- Sidebar: Patient Details & Actions -->
+        <aside class="side-panel" id="side-panel">
+            <div style="text-align: center; color: var(--text-secondary); margin-top: 50px;">
+                Select a bed to view details or manage patient.
+            </div>
+        </aside>
+    </div>
+
+    <!-- Round Note Modal -->
+    <div class="modal" id="noteModal">
+        <div class="modal-content">
+            <h3>Add Round Note</h3>
+            <div class="form-group">
+                <textarea id="noteText" rows="4" placeholder="Enter clinical observation..."></textarea>
+            </div>
+            <div class="modal-actions">
+                <button class="btn-action" style="background: #eee; color: #666;" onclick="closeModal()">Cancel</button>
+                <button class="btn-action" style="background: var(--primary); color: white;" onclick="saveNote()">Save
+                    Note</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Transfer Bed Modal -->
+    <div class="modal" id="transferModal">
+        <div class="modal-content">
+            <h3>Transfer Patient Bed</h3>
+            <div class="form-group">
+                <p style="margin-bottom: 8px; color: var(--text-secondary);">Current Location: <strong
+                        id="currentBedInfo" style="color: var(--primary);"></strong></p>
+            </div>
+            <div class="form-group">
+                <label>Select New Location</label>
+                <div style="display: flex; gap: 12px;">
+                    <select id="transferWard" onchange="loadTransferBeds()">
+                        <option value="">-- Select Ward --</option>
+                    </select>
+                    <select id="transferBed">
+                        <option value="">-- Select Bed --</option>
+                    </select>
+                </div>
+            </div>
+            <div class="modal-actions">
+                <button class="btn-action" style="background: #f1f5f9; color: #64748b;"
+                    onclick="closeTransferModal()">Cancel</button>
+                <button class="btn-action" style="background: var(--primary); color: white;"
+                    onclick="submitTransfer()">Confirm Transfer</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="js/translations.js"></script>
+    <script src="js/i18n.js"></script>
+    <script src="js/ipd.js"></script>
+    <script src="js/chat-widget.js"></script>
+</body>
+
+</html>

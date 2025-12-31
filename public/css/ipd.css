@@ -1,0 +1,491 @@
+/* IPD Management Styles (SaaS Theme) */
+
+/* 
+    Extends global variables.
+    Focus: Visual Bed Management, Clear Status Indicators, Split View
+*/
+
+/* Body styling removed to inherit from global styles.css */
+
+.dashboard-wrapper {
+    display: flex;
+    height: calc(100vh - var(--header-height));
+    gap: 32px;
+}
+
+/* --- Main Panel: Bed Map --- */
+.main-panel {
+    flex: 1;
+    background: white;
+    border-radius: var(--radius-lg);
+    border: 1px solid #e2e8f0;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.03);
+    display: flex;
+    flex-direction: column;
+    padding: 32px;
+    overflow: hidden;
+}
+
+.main-panel h2 {
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: var(--text-primary);
+    letter-spacing: -0.01em;
+}
+
+/* Status Legend */
+.status-legend {
+    display: flex;
+    gap: 20px;
+    background: #f8fafc;
+    padding: 8px 16px;
+    border-radius: 99px;
+    border: 1px solid #e2e8f0;
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+}
+
+.dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+}
+
+.dot.available {
+    background: #10b981;
+    box-shadow: 0 0 0 2px #d1fae5;
+}
+
+.dot.occupied {
+    background: #ef4444;
+    box-shadow: 0 0 0 2px #fee2e2;
+}
+
+.dot.cleaning {
+    background: #f59e0b;
+    box-shadow: 0 0 0 2px #fef3c7;
+}
+
+/* Wards Container */
+#wards-container {
+    flex: 1;
+    overflow-y: auto;
+    padding-right: 8px;
+    margin-top: 16px;
+}
+
+/* Scrollbar styling */
+#wards-container::-webkit-scrollbar {
+    width: 6px;
+}
+
+#wards-container::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+    border-radius: 10px;
+}
+
+/* Ward Section */
+.ward-section {
+    margin-bottom: 32px;
+}
+
+.ward-header {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid #f1f5f9;
+}
+
+.ward-capacity {
+    font-size: 0.8rem;
+    background: #f1f5f9;
+    padding: 2px 8px;
+    border-radius: 4px;
+    color: var(--text-secondary);
+    font-weight: 500;
+}
+
+/* Bed Grid */
+.bed-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 16px;
+}
+
+/* Bed Card */
+.bed-card {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 16px;
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100px;
+}
+
+.bed-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05);
+    border-color: var(--primary);
+}
+
+.bed-card.selected {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 2px var(--primary);
+    background: #f0f9ff;
+}
+
+.bed-icon {
+    font-size: 1.8rem;
+    margin-bottom: 8px;
+    opacity: 0.8;
+}
+
+.bed-number {
+    font-weight: 700;
+    color: var(--text-primary);
+    font-size: 1rem;
+}
+
+.bed-status-text {
+    font-size: 0.75rem;
+    margin-top: 4px;
+    font-weight: 500;
+    text-transform: uppercase;
+}
+
+/* Bed Status Variants */
+.bed-card.available .bed-status-text {
+    color: #10b981;
+}
+
+.bed-card.available .bed-icon {
+    color: #10b981;
+}
+
+.bed-card.available:hover {
+    background: linear-gradient(135deg, #ecfdf5 0%, #d1fae5 100%);
+    border-color: #10b981;
+    box-shadow: 0 4px 12px rgba(16, 185, 129, 0.2);
+}
+
+.bed-card.occupied .bed-status-text {
+    color: #ef4444;
+}
+
+.bed-card.occupied .bed-icon {
+    color: #ef4444;
+}
+
+.bed-card.occupied {
+    background: linear-gradient(135deg, #fef2f2 0%, #ffe4e6 100%);
+    border-color: #fee2e2;
+}
+
+.bed-card.cleaning .bed-status-text {
+    color: #f59e0b;
+}
+
+.bed-card.cleaning .bed-icon {
+    color: #f59e0b;
+}
+
+.bed-card.cleaning {
+    background: #fffbeb;
+    border-color: #fef3c7;
+}
+
+/* --- Side Panel: Details --- */
+.side-panel {
+    width: 380px;
+    background: #ffffff;
+    border-left: 1px solid #e2e8f0;
+    border-radius: var(--radius-lg);
+    box-shadow: -10px 0 20px rgba(0, 0, 0, 0.02);
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+}
+
+.side-panel h3 {
+    font-size: 1.25rem;
+    font-weight: 700;
+    margin-bottom: 24px;
+    border-bottom: 2px solid #f1f5f9;
+    padding-bottom: 12px;
+}
+
+/* Patient Info in Side Panel */
+.patient-info-card {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 24px;
+}
+
+.info-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    font-size: 0.95rem;
+}
+
+.info-label {
+    color: var(--text-secondary);
+    font-weight: 500;
+}
+
+.info-value {
+    color: var(--text-primary);
+    font-weight: 600;
+}
+
+/* Action Buttons */
+.action-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-top: auto;
+    /* Push to bottom */
+}
+
+.btn-action {
+    width: 100%;
+    padding: 12px;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    cursor: pointer;
+    border: none;
+    transition: all 0.2s;
+}
+
+.btn-transfer {
+    background: #eff6ff;
+    color: var(--primary);
+    border: 1px solid #bfdbfe;
+}
+
+.btn-transfer:hover {
+    background: #dbeafe;
+}
+
+.btn-discharge {
+    background: #fef2f2;
+    color: #ef4444;
+    border: 1px solid #fecaca;
+}
+
+.btn-discharge:hover {
+    background: #fee2e2;
+}
+
+.btn-add-note {
+    grid-column: span 2;
+    background: white;
+    border: 1px solid #e2e8f0;
+    color: var(--text-primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.btn-add-note:hover {
+    background: #f8fafc;
+    border-color: #cbd5e1;
+}
+
+.btn-view-chart {
+    grid-column: span 2;
+    background: var(--primary);
+    color: white;
+}
+
+.btn-view-chart:hover {
+    background: var(--primary-dark);
+}
+
+/* Notes List */
+.notes-list {
+    margin-top: 24px;
+    margin-bottom: 24px;
+}
+
+.note-item {
+    padding: 12px;
+    background: #fffbeb;
+    border: 1px solid #fef3c7;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    font-size: 0.9rem;
+}
+
+.note-date {
+    font-size: 0.75rem;
+    color: #92400e;
+    margin-bottom: 4px;
+    display: block;
+    font-weight: 700;
+}
+
+/* --- Modals & Overlays --- */
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(15, 23, 42, 0.6);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 2000;
+    padding: 20px;
+    animation: fadeInModal 0.3s ease-out;
+}
+
+@keyframes fadeInModal {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+.modal-content {
+    background: white;
+    border-radius: 20px;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+    padding: 32px;
+    width: 100%;
+    max-width: 500px;
+    position: relative;
+    max-height: 90vh;
+    overflow-y: auto;
+    animation: slideUp 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+
+@keyframes slideUp {
+    from {
+        transform: translateY(20px);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.modal-content h3,
+.modal-content h2 {
+    margin-top: 0;
+    margin-bottom: 20px;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    border-bottom: 2px solid #f1f5f9;
+    padding-bottom: 12px;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+    width: 100%;
+    padding: 12px 16px;
+    border-radius: 10px;
+    border: 1px solid #e2e8f0;
+    font-family: inherit;
+    font-size: 0.95rem;
+    transition: all 0.2s;
+    background: #f8fafc;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+    background: white;
+}
+
+.modal-actions {
+    display: flex;
+    gap: 12px;
+    justify-content: flex-end;
+    margin-top: 24px;
+}
+
+.modal-actions button {
+    flex: 0 0 auto;
+    min-width: 100px;
+}
+
+/* Specific button fixes for modal */
+.modal .btn-action {
+    width: auto;
+    min-width: 120px;
+    white-space: nowrap;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 12px 20px;
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+    .dashboard-wrapper {
+        flex-direction: column;
+        height: auto;
+        overflow-y: auto;
+    }
+
+    .main-panel {
+        height: 600px;
+        /* Fixed height for map on scrollable page */
+    }
+
+    .side-panel {
+        width: 100%;
+        height: auto;
+        border-left: none;
+        border-top: 1px solid #e2e8f0;
+    }
+}

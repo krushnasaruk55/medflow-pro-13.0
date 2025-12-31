@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - MedFlow Pro</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/mobile.css">
+    <link rel="stylesheet" href="css/login.css">
+</head>
+
+<body class="login-page">
+
+    <div class="language-corner">
+        <select id="languageSelect" class="language-selector language-selector-blur">
+            <option value="en">English</option>
+            <option value="hi">हिंदी</option>
+            <option value="mr">मराठी</option>
+        </select>
+    </div>
+
+    <div class="login-container">
+        <div class="login-header">
+            <div class="login-logo">
+                <span>MedFlow</span> Pro
+            </div>
+            <p class="subtitle-text" data-i18n="login.subtitle">Hospital Management System</p>
+        </div>
+
+        <form id="loginForm">
+            <div class="section-selector">
+                <button type="button" class="section-btn active" data-section="reception">
+                    📋<br><span data-i18n="nav.reception">Reception</span>
+                </button>
+                <button type="button" class="section-btn" data-section="doctor">
+                    🩺<br><span data-i18n="nav.doctor">Doctor</span>
+                </button>
+                <button type="button" class="section-btn" data-section="pharmacy">
+                    💊<br><span data-i18n="nav.pharmacy">Pharmacy</span>
+                </button>
+                <button type="button" class="section-btn" data-section="ipd">
+                    🏥<br><span data-i18n="nav.ipd">IPD</span>
+                </button>
+            </div>
+
+            <div class="form-group">
+                <label data-i18n="login.accesscode">Monthly Access Code</label>
+                <input type="password" class="password-input" id="hospitalPassword" placeholder="XXXX-XXXX"
+                    autocomplete="off" required>
+            </div>
+
+            <div class="form-group">
+                <label data-i18n="login.username">Username</label>
+                <input type="text" id="username" placeholder="Enter username" autocomplete="off" class="login-input"
+                    required data-i18n-target="placeholder" data-i18n="login.usernamePlaceholder">
+            </div>
+
+            <div class="form-group">
+                <label data-i18n="login.password">Password</label>
+                <input type="password" id="password" placeholder="Enter password" autocomplete="off"
+                    class="login-input input-mb-16" required data-i18n-target="placeholder"
+                    data-i18n="login.passwordPlaceholder">
+            </div>
+
+            <div id="errorMessage" class="error-message"></div>
+
+            <button type="submit" class="btn btn-primary btn-full-width-mt" data-i18n="btn.access">
+                Access System
+            </button>
+        </form>
+
+        <div class="register-link">
+            <p class="footer-text">
+                <span data-i18n="login.newhospital">New hospital?</span>
+                <a href="/register-hospital.html" class="register-link-a" data-i18n="login.register">Register here</a>
+            </p>
+        </div>
+    </div>
+
+    <script src="js/utils.js"></script>
+    <script src="js/translations.js"></script>
+    <script src="js/i18n.js"></script>
+    <script>
+        let selectedSection = 'reception';
+
+        // Section selector
+        document.querySelectorAll('.section-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.section-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                selectedSection = btn.dataset.section;
+            });
+        });
+
+        // Login form
+        document.getElementById('loginForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const hospitalPassword = document.getElementById('hospitalPassword').value.trim();
+            const username = document.getElementById('username').value.trim();
+            const password = document.getElementById('password').value;
+            const errorMsg = document.getElementById('errorMessage');
+
+            errorMsg.style.display = 'none';
+
+            try {
+                const response = await fetch('/api/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    credentials: 'include', // Important for session cookies
+                    body: JSON.stringify({
+                        hospitalPassword,
+                        username,
+                        userPassword: password
+                    })
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    // Store user info in sessionStorage
+                    sessionStorage.setItem('authenticated', 'true');
+                    sessionStorage.setItem('hospitalId', data.user.hospitalId);
+                    sessionStorage.setItem('username', data.user.username);
+                    sessionStorage.setItem('role', data.user.role);
+
+                    // Redirect based on section
+                    window.location.href = `${selectedSection}.html`;
+                } else {
+                    errorMsg.textContent = data.message || 'Invalid credentials';
+                    errorMsg.style.display = 'block';
+                }
+            } catch (error) {
+                errorMsg.textContent = 'Connection error. Please try again.';
+                errorMsg.style.display = 'block';
+            }
+        });
+    </script>
+
+</body>
+
+</html>

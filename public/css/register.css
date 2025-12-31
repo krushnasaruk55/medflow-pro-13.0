@@ -1,0 +1,261 @@
+/* Registration Page Styles */
+
+/* Layout inheriting from global but specific adjustments */
+body {
+    display: flex;
+    /* Centering overrides for registration page */
+    align-items: center;
+    justify-content: center;
+    padding: 40px 20px;
+    min-height: 100vh;
+}
+
+.register-container {
+    background: rgba(255, 255, 255, 0.9);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    border: 1px solid rgba(255, 255, 255, 0.7);
+    border-radius: 32px;
+    /* Larger radius for modern look */
+    width: 100%;
+    max-width: 600px;
+    padding: 48px;
+    box-shadow: 0 40px 80px -12px rgba(0, 0, 0, 0.12);
+    position: relative;
+    /* overflow: hidden; Removed to allow tooltips/popups if needed */
+    animation: fadeScale 0.6s ease-out;
+}
+
+@keyframes fadeScale {
+    from {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* Header */
+.register-header {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.register-logo {
+    font-family: 'Outfit', sans-serif;
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 12px;
+}
+
+.register-logo span {
+    background: var(--accent-grad);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.register-header h2 {
+    font-size: 1.8rem;
+    margin-bottom: 8px;
+    letter-spacing: -0.5px;
+}
+
+/* Stepper Component */
+.step-indicator {
+    display: flex;
+    justify-content: center;
+    gap: 48px;
+    /* Spacing between circles */
+    margin-bottom: 48px;
+    position: relative;
+    max-width: 300px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* Connecting line behind steps */
+.step-indicator::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background: #e2e8f0;
+    transform: translateY(-50%);
+    z-index: 0;
+    border-radius: 99px;
+}
+
+.step {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: white;
+    border: 3px solid #e2e8f0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    color: var(--text-secondary);
+    position: relative;
+    z-index: 1;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    font-size: 0.95rem;
+}
+
+.step.active {
+    border-color: var(--primary);
+    background: var(--primary);
+    color: white;
+    box-shadow: 0 0 0 6px rgba(79, 70, 229, 0.15);
+    transform: scale(1.1);
+}
+
+.step.completed {
+    background: var(--success);
+    border-color: var(--success);
+    color: white;
+}
+
+/* Forms */
+.form-section {
+    display: none;
+    animation: fadeIn 0.4s ease forwards;
+}
+
+.form-section.active {
+    display: block;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.form-section h3 {
+    text-align: center;
+    margin-bottom: 24px;
+    font-size: 1.25rem;
+    color: var(--text-secondary);
+}
+
+.form-group {
+    margin-bottom: 24px;
+}
+
+.form-group label {
+    display: block;
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: var(--text-primary);
+    margin-bottom: 8px;
+}
+
+.form-group input,
+.form-group textarea {
+    width: 100%;
+    padding: 14px 16px;
+    border-radius: var(--radius-md);
+    border: 2px solid #e2e8f0;
+    font-family: inherit;
+    font-size: 1rem;
+    transition: all 0.2s;
+    background: #f8fafc;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+    outline: none;
+    border-color: var(--primary);
+    background: white;
+    box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.1);
+}
+
+.flex {
+    display: flex;
+}
+
+.gap-2 {
+    gap: 16px;
+}
+
+/* Success State */
+.success-message {
+    text-align: center;
+    padding: 20px 0;
+}
+
+.success-icon {
+    font-size: 4rem;
+    margin-bottom: 24px;
+    animation: bounce 1s infinite;
+}
+
+@keyframes bounce {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-10px);
+    }
+}
+
+.password-display {
+    background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+    border: 2px dashed var(--primary);
+    border-radius: var(--radius-lg);
+    padding: 24px;
+    margin: 24px 0;
+}
+
+.password-code {
+    font-family: 'Courier New', monospace;
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--primary);
+    letter-spacing: 4px;
+    margin: 12px 0;
+}
+
+.alert-info {
+    background: #eff6ff;
+    border-left: 4px solid var(--primary);
+    padding: 16px 20px;
+    border-radius: var(--radius-sm);
+    font-size: 0.95rem;
+    color: var(--text-primary);
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 600px) {
+    .register-container {
+        padding: 24px;
+        border-radius: 20px;
+    }
+
+    .step-indicator {
+        gap: 24px;
+        /* Tighter circles on mobile */
+    }
+
+    .step {
+        width: 32px;
+        height: 32px;
+        font-size: 0.85rem;
+    }
+}
